@@ -1,0 +1,32 @@
+[
+    {
+        "CommandName": "ChangeOBSScene",
+        "ParametersNeeded": "NewSceneName",
+        "PossibleScenes": [
+            "Full Cam",
+            "GameScene",
+            "ArduinoCam"
+        ],
+        "ApiEndpoint": "https://localhost:44325/Action/obs/change"
+    },
+    {
+        "CommandName": "Open Fusion 360",
+        "ParametersNeeded": "N/A",
+        "ApiEndpoint": "https://localhost:44325/Action/fusion/open"
+    },
+    {
+        "CommandName": "Open VS Code",
+        "ParametersNeeded": "N/A",
+        "ApiEndpoint": "https://localhost:44325/Action/vscode/open"
+    },
+    {
+        "CommandName": "Open notepad",
+        "ParametersNeeded": "N/A",
+        "ApiEndpoint": "https://localhost:44325/Action/notepad/open"
+    },
+    {
+        "CommandName": "Open specific website",
+        "ParametersNeeded": "url of website",
+        "ApiEndpoint": "https://localhost:44325/Action/open/website"
+    }
+]
