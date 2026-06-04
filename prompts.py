@@ -16,9 +16,12 @@ systemPrompt = {
                 You may also recieve general questions that don't involve an api action, if this is the case return an empty action list with a response.
                 On each request save necessary context from the requests and return them in the context property. Write the context as a full succinct context as it will be overwritten in the app each time.
                 Within each request you are sent you will also recieve a context to be used in your interpretation if it seems necessary.
+                In the event that an endpoint can return data it will need to have a property of can return, in that case you will recieve a second call with the returned information in the context, so you should store what it is you need
+                in your context then the data will be appended and you can continue carrying out actions. This means if you don't have the information to carry out a task but could feasibly get it through a request to the api, then you can
+                perform a multi step process to undertake the action, just note you are currently restricted to 3 follow up actions.
                 
                 Stick religiously to the following return format:
-                "ReturnFormat": {{'"actions": [{"apiendpoint": "https://localhost:44325/Action/obs/change","parameters": {"sceneName": ""}}], "response": "", "context": ""}
+                "ReturnFormat": {{'"actions": [{"apiendpoint": "https://localhost:44325/Action/obs/change","parameters": {"sceneName": ""}, "store_response": false}], "response": "", "context": ""}
                 """ + f"Command List: {load_commands()}"
                 }
 

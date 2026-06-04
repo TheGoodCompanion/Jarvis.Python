@@ -14,17 +14,31 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # Get microphone stream
 FRAME_SIZE = 1280
 RATE = 16000
-audio_queue = queue.Queue()
+
 command_frames = []
 record_until=0
 is_recording_command = False
 wake_detection_cooldown = 0
-owwModel = Model(["hey_jarvis"])
 wake_latched = False
+recording_started_at = 0
+last_speech_time = 0
+silence_timeout = 2.0
+min_record_time = 1.0
 WAKE_THRESHOLD = 0.5
 RESET_THRESHOLD = 0.2
+
+owwModel = Model(["hey_jarvis"])
+audio_queue = queue.Queue()
 aiclient = chatgptclient()
 api_client = ApiClient()
+
+def is_speech(audio_int16, threshold = 500):
+    rms = np.sqrt(
+        np.mean(
+            audio_int16.astype(np.float32) ** 2
+        )
+    )
+    return rms > threshold
 
 async def play_beep():
     await asyncio.to_thread(playsound, "Beep.mp3")
@@ -48,10 +62,16 @@ with sd.InputStream(
 
         if is_recording_command:
             command_frames.append(audio_int16)
-            if time.time() >= record_until:
+            if is_speech(audio_int16):
+                last_speech_time = time.time()
+            
+            record_duration = time.time() - recording_started_at
+            is_long_enough = record_duration > min_record_time
+            is_silent_long_enough = (time.time() - last_speech_time) > silence_timeout
+
+            if is_long_enough and is_silent_long_enough:
                 is_recording_command = False
                 command_audio = np.concatenate(command_frames)
-
                 command_frames = []
                 print("Finished Recording")
                 sf.write("command.wav", command_audio, RATE)
@@ -77,5 +97,7 @@ with sd.InputStream(
                 asyncio.run(play_beep())
                 is_recording_command = True
                 command_frames = []
-                record_until = time.time() + 5
+
+                recording_started_at = time.time()
+                last_speech_time = time.time()
                 break

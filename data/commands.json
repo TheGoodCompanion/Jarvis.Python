@@ -28,5 +28,35 @@
         "CommandName": "Open specific website",
         "ParametersNeeded": "url of website",
         "ApiEndpoint": "https://localhost:44325/Action/open/website"
+    },
+    {
+        "CommandName": "Create a google doc",
+        "Description": "Use the input from the user to determine what needs to be noted in a document. Use both what the user has said and logical reasoning.",
+        "ParametersNeeded": "title, content",
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/create"
+    },
+    {
+        "CommandName": "Get list of google docs",
+        "Description": "This endpoint will return a list of all the google docs available and if needed you can set store_response to true and the app will consult you again with the data in the context so you can carry out follow-up actions, for example if the user wants you to update a document but you don't have the document ID you can search through the list of documents and find the correct id.",
+        "ParametersNeeded": "N/A",
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/list"
+    },
+    {
+        "CommandName": "Update a google docs",
+        "Description": "This endpoint is used to update a google doc. If you aren't sure what document id to use, you can use the get list endpoint. You can only replace all the content.",
+        "ParametersNeeded": "documentId, content",
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/update"
+    },
+    {
+        "CommandName": "Get google doc with it content",
+        "Description": "This endpoint is used to retrieve a specific document using it's id so you can see the content of it. You could use this to update the content whilst having context of it or anything else where you may need to see the content.",
+        "ParametersNeeded": "documentId",
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/get"
+    },
+    {
+        "CommandName": "Test ESP motor endpoint",
+        "Description": "This endpoint will spin a motor",
+        "ParametersNeeded": "N/A",
+        "ApiEndpoint": "https://localhost:44325/Action/monster-can"
     }
 ]
