@@ -8,6 +8,16 @@ class ApiClient:
         self.send_another_request = False
         self.follow_up_depth = 0
         self.max_follow_up_depth = 3
+        self.on_response_recieved = None
+        self.on_context_changed = None
+
+    def emit_vocal_response(self, text):
+        if self.on_response_recieved:
+            self.on_response_recieved(text)
+    
+    def emit_context(self, context):
+        if self.on_context_changed:
+            self.on_context_changed(context)
 
     async def parse_chatgpt_response(self, actions):
         for action in actions:
@@ -32,11 +42,13 @@ class ApiClient:
         command = json.loads(command_json)
         actions = command["actions"]
         vocal_response = command["response"]
+        self.emit_vocal_response(vocal_response)
         await asyncio.gather(
             self.parse_chatgpt_response(actions),
             aiclient.generate_and_play_tts(vocal_response)
         )
         aiclient.context = command["context"] + ' - '.join(self.returned_data)
+        self.emit_context(aiclient.context)
         if self.send_another_request and self.follow_up_depth <= self.max_follow_up_depth:
             self.send_another_request = False
             self.follow_up_depth += 1 
