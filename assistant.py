@@ -35,13 +35,24 @@ class JarvisAssistant:
         self.api_client = ApiClient()
         self.api_client.on_response_recieved = self.emit_response
         self.api_client.on_context_changed = self.emit_context
-
+        self.api_client.on_action_added = self.emit_action
+        self.api_client.on_action_playing = self.emit_action_in_progress
         self.on_status_changed = None
         self.on_transcript = None
         self.on_response = None
         self.on_action = None
         self.on_context_changed = None
+        self.on_action_added = None
+        self.on_action_playing = None
 
+    def emit_action(self, action):
+        if self.on_action_added:
+            self.on_action_added(action)
+    
+    def emit_action_in_progress(self, action):
+        if self.on_action_playing:
+            self.on_action_playing(action)
+            
     def emit_status(self, status):
         print(status)
         if self.on_status_changed:
