@@ -7,56 +7,95 @@
             "GameScene",
             "ArduinoCam"
         ],
-        "ApiEndpoint": "https://localhost:44325/Action/obs/change"
+        "ApiEndpoint": "https://localhost:44325/Action/obs/change",
+        "Method": "post"
     },
     {
         "CommandName": "Open Fusion 360",
         "ParametersNeeded": "N/A",
-        "ApiEndpoint": "https://localhost:44325/Action/fusion/open"
+        "ApiEndpoint": "https://localhost:44325/Action/fusion/open",
+        "Method": "post"
     },
     {
         "CommandName": "Open VS Code",
         "ParametersNeeded": "N/A",
-        "ApiEndpoint": "https://localhost:44325/Action/vscode/open"
+        "ApiEndpoint": "https://localhost:44325/Action/vscode/open",
+        "Method": "post"
     },
     {
         "CommandName": "Open notepad",
         "ParametersNeeded": "N/A",
-        "ApiEndpoint": "https://localhost:44325/Action/notepad/open"
+        "ApiEndpoint": "https://localhost:44325/Action/notepad/open",
+        "Method": "post"
     },
     {
         "CommandName": "Open specific website",
         "ParametersNeeded": "url of website",
-        "ApiEndpoint": "https://localhost:44325/Action/open/website"
+        "ApiEndpoint": "https://localhost:44325/Action/open/website",
+        "Method": "post"
     },
     {
         "CommandName": "Create a google doc",
         "Description": "Use the input from the user to determine what needs to be noted in a document. Use both what the user has said and logical reasoning.",
         "ParametersNeeded": "title, content",
-        "ApiEndpoint": "https://localhost:44325/Action/google-doc/create"
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/create",
+        "Method": "post"
     },
     {
         "CommandName": "Get list of google docs",
         "Description": "This endpoint will return a list of all the google docs available and if needed you can set store_response to true and the app will consult you again with the data in the context so you can carry out follow-up actions, for example if the user wants you to update a document but you don't have the document ID you can search through the list of documents and find the correct id.",
         "ParametersNeeded": "N/A",
-        "ApiEndpoint": "https://localhost:44325/Action/google-doc/list"
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/list",
+        "Method": "post"
     },
     {
         "CommandName": "Update a google docs",
         "Description": "This endpoint is used to update a google doc. If you aren't sure what document id to use, you can use the get list endpoint. You can only replace all the content.",
         "ParametersNeeded": "documentId, content",
-        "ApiEndpoint": "https://localhost:44325/Action/google-doc/update"
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/update",
+        "Method": "post"
     },
     {
         "CommandName": "Get google doc with it content",
         "Description": "This endpoint is used to retrieve a specific document using it's id so you can see the content of it. You could use this to update the content whilst having context of it or anything else where you may need to see the content.",
         "ParametersNeeded": "documentId",
-        "ApiEndpoint": "https://localhost:44325/Action/google-doc/get"
+        "ApiEndpoint": "https://localhost:44325/Action/google-doc/get",
+        "Method": "post"
     },
     {
-        "CommandName": "Test ESP motor endpoint",
-        "Description": "This endpoint will spin a motor",
+        "CommandName": "Open Can Of Monster",
+        "Description": "This endpoint will spin a motor and open a can of monster",
         "ParametersNeeded": "N/A",
-        "ApiEndpoint": "https://localhost:44325/Action/monster-can"
+        "ApiEndpoint": "https://localhost:44325/Action/monster-can",
+        "Method": "post"
+    },
+    {
+        "CommandName": "Get the active progress tracker",
+        "Description": "There will only ever be one active progress tracker. This endpoint returns its only active tracker",
+        "ParametersNeeded":"N/A",
+        "ApiEndpoint": "https://localhost:44317/ProgressTracker/active",
+        "Method": "get"
+    },
+    {
+        "CommandName": "Get the list of items on a the progress tracker",
+        "Description": "This endpoint will return all the data on the progress tracker items",
+        "ParametersNeeded":"ProgressTrackerId",
+        "ApiEndpoint": "https://localhost:44317/ProgressTracker/{ProgressTrackerId}",
+        "Method": "get"
+    },
+    {
+        "CommandName": "Set status of progress tracker item",
+        "Description": "This endpoint will set the status of the item supplied. When changing the status of an item consider the statuses of the other items based on their order. So when an item is completed the next item should go to inprogress. Consider this when going backwards as well. the progress tracker item id is the ID field from the get list endpoint",
+        "PossibleStatuses": ["pending", "inprogress", "completed"],
+        "ParametersNeeded":"ProgressTrackerItemId, status",
+        "ApiEndpoint": "https://localhost:44317/ProgressTracker/{ProgressTrackerItemId}/set-status/{status}",
+        "Method": "put"
+    },
+    {
+        "CommandName": "Add progress tracker item",
+        "Description": "This endpoint is to add items to the current active progress tracker",
+        "ParametersNeeded":"ProgressTrackerId, Name, Order",
+        "ApiEndpoint": "https://localhost:44317/ProgressTracker/{ProgressTrackerId}/add",
+        "Method": "post"
     }
 ]

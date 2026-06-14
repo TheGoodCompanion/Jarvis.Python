@@ -19,9 +19,10 @@ systemPrompt = {
                 In the event that an endpoint can return data it will need to have a property of can return, in that case you will recieve a second call with the returned information in the context, so you should store what it is you need
                 in your context then the data will be appended and you can continue carrying out actions. This means if you don't have the information to carry out a task but could feasibly get it through a request to the api, then you can
                 perform a multi step process to undertake the action, just note you are currently restricted to 3 follow up actions.
+                In the event you see {} inside of an api endpoint property, that is to denote that the parameters should appear in the url not a body.
                 
                 Stick religiously to the following return format:
-                "ReturnFormat": {{'"actions": [{"apiendpoint": "https://localhost:44325/Action/obs/change","parameters": {"sceneName": ""}, "store_response": false}], "response": "", "context": ""}
+                "ReturnFormat": {{'"actions": [{"apiendpoint": "https://localhost:44325/Action/obs/change","parameters": {"sceneName": ""}, "store_response": false, "method": ""}], "response": "", "context": ""}
                 """ + f"Command List: {load_commands()}"
                 }
 
